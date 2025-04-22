@@ -1,10 +1,19 @@
 package main
 
-import "fmt"
-
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
-	fmt.Println("Hello World")
+	const IMTPow = 2
+	var userHeight float64
+	var userWeight float64
+	fmt.Print("Type your height in cm: ")
+	fmt.Scanln(&userHeight)
+	fmt.Print("Type your weight in kg: ")
+	fmt.Scanln(&userWeight)
+	IMT := userWeight / math.Pow(userHeight/100, IMTPow)
+	fmt.Printf("Your IMT is %.1f", IMT)
+
 }
