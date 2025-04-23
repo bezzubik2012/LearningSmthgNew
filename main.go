@@ -9,11 +9,19 @@ const IMTPow = 2
 
 var userHeight float64
 var userWeight float64
+var answer string
 
 func main() {
-	getUserInput()
-	IMT := calculateIMT(userWeight, userHeight, IMTPow)
-	outputResult(IMT)
+	fmt.Println("Welcome to IMT calculator! Let`s begin!")
+	for {
+		getUserInput()
+		IMT := calculateIMT(userWeight, userHeight, IMTPow)
+		outputResult(IMT)
+		if repeatCalculation() {
+			break
+		}
+	}
+
 }
 
 func outputResult(IMT float64) {
@@ -30,7 +38,7 @@ func outputResult(IMT float64) {
 		fmt.Println("Too high weight")
 	}
 
-	fmt.Printf("Your IMT is %.1f", IMT)
+	fmt.Printf("Your IMT is %.1f\n", IMT)
 }
 
 func calculateIMT(userKG, userHeight, pow float64) float64 {
@@ -42,4 +50,14 @@ func getUserInput() {
 	fmt.Scanln(&userHeight)
 	fmt.Print("Type your weight in kg: ")
 	fmt.Scanln(&userWeight)
+}
+
+func repeatCalculation() bool {
+	fmt.Println("Do you want to continue IMT calculations? y/n")
+	fmt.Scanln(&answer)
+	if answer != "y" && answer != "Y" || answer == "" {
+		fmt.Println("Exiting...")
+		return true
+	}
+	return false
 }
