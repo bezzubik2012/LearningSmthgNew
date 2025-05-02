@@ -28,7 +28,6 @@ func main() {
 			break
 		}
 	}
-
 }
 
 func outputResult(IMT float64) {
