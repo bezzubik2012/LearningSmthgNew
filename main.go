@@ -15,13 +15,15 @@ var answer string
 func main() {
 	fmt.Println("Welcome to IMT calculator! Let`s begin!")
 	for {
-		getUserInput()
-		IMT, err := calculateIMT(userWeight, userHeight, IMTPow)
+		err := getUserInput()
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
+		IMT := calculateIMT(userWeight, userHeight, IMTPow)
 		outputResult(IMT)
+		userWeight = 0
+		userHeight = 0
 		if repeatCalculation() {
 			break
 		}
@@ -46,21 +48,29 @@ func outputResult(IMT float64) {
 	fmt.Printf("Your IMT is %.1f\n", IMT)
 }
 
-func calculateIMT(userKG, userHeight, pow float64) (float64, error) {
-	if userKG <= 0 || userHeight <= 0 {
-		return 0.0, errors.New("\nInvalid weight or height, please try again")
-	}
+func calculateIMT(userKG, userHeight, pow float64) float64 {
 	IMT := userKG / math.Pow(userHeight/100, pow)
-	return IMT, nil
+	return IMT
 }
 
-func getUserInput() {
-	userWeight = 0
-	userHeight = 0
-	fmt.Print("Type your height in cm: ")
-	fmt.Scanln(&userHeight)
-	fmt.Print("Type your weight in kg: ")
-	fmt.Scanln(&userWeight)
+func getUserInput() error {
+	if userHeight == 0 {
+		fmt.Print("Type your height in cm: ")
+		fmt.Scan(&userHeight)
+		if userHeight <= 0 {
+			return errors.New("Invalid height, please try again")
+		}
+	}
+
+	if userWeight == 0 {
+		fmt.Print("Type your weight in kg: ")
+		fmt.Scan(&userWeight)
+		if userWeight <= 0 {
+			return errors.New("Invalid weight, please try again")
+		}
+	}
+
+	return nil
 }
 
 func repeatCalculation() bool {
