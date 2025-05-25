@@ -1,83 +1,57 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"math"
+	"strconv"
 )
 
-const IMTPow = 2
-
-var userHeight float64
-var userWeight float64
-var answer string
+var transactions []float64
 
 func main() {
-	fmt.Println("Welcome to IMT calculator! Let`s begin!")
+	fmt.Println("Hello, lets calculate your transactions!\nType positive or negative value of transaction, with point if its needed:\nAfter last input enter empty string")
 	for {
-		err := getUserInput()
-		if err != nil {
-			fmt.Println(err)
+		inputTransaction()
+		fmt.Println("Do you want to continue input? Y/N")
+		if repeatInput() == true {
 			continue
 		}
-		IMT := calculateIMT(userWeight, userHeight, IMTPow)
-		outputResult(IMT)
-		userWeight = 0
-		userHeight = 0
-		if repeatCalculation() {
+		break
+	}
+	fmt.Println("Your balance:")
+	fmt.Printf("%.2f\n", sumCalculation(transactions))
+}
+
+func inputTransaction() {
+	for {
+		transaction := ""
+		fmt.Println("Enter your transaction (n for exit): ")
+		fmt.Scanln(&transaction)
+		if transaction == "n" || transaction == "N" {
+			fmt.Println("End of input")
 			break
+		} else if number, err := strconv.ParseFloat(transaction, 64); err == nil {
+			transactions = append(transactions, number)
+		} else {
+			fmt.Println("Invalid input, please try again")
+			continue
 		}
 	}
 }
 
-func outputResult(IMT float64) {
-	switch {
-	case IMT < 16:
-		fmt.Println("Too low weight")
-	case (16 <= IMT) && (IMT < 18.5):
-		fmt.Println("Low weight")
-	case (18.5 <= IMT) && (IMT < 25):
-		fmt.Println("Normal weight")
-	case (25 <= IMT) && (IMT < 30):
-		fmt.Println("High weight")
-	default:
-		fmt.Println("Too high weight")
-	}
-
-	fmt.Printf("Your IMT is %.1f\n", IMT)
-}
-
-func calculateIMT(userKG, userHeight, pow float64) float64 {
-	IMT := userKG / math.Pow(userHeight/100, pow)
-	return IMT
-}
-
-func getUserInput() error {
-	if userHeight == 0 {
-		fmt.Print("Type your height in cm: ")
-		fmt.Scan(&userHeight)
-		if userHeight <= 0 {
-			return errors.New("Invalid height, please try again")
-		}
-	}
-
-	if userWeight == 0 {
-		fmt.Print("Type your weight in kg: ")
-		fmt.Scan(&userWeight)
-		if userWeight <= 0 {
-			return errors.New("Invalid weight, please try again")
-		}
-	}
-
-	return nil
-}
-
-func repeatCalculation() bool {
-	fmt.Println("Do you want to continue IMT calculations? y/n")
-	fmt.Scanln(&answer)
-	if answer != "y" && answer != "Y" || answer == "" {
-		fmt.Println("Exiting...")
+func repeatInput() bool {
+	var input string
+	fmt.Scanln(&input)
+	if input == "y" || input == "Y" {
 		return true
+	} else {
+		return false
 	}
-	return false
+}
+
+func sumCalculation(trSlice []float64) float64 {
+	var sum float64
+	for _, value := range trSlice {
+		sum += value
+	}
+	return sum
 }
