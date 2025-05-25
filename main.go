@@ -3,43 +3,37 @@ package main
 import "fmt"
 
 func main() {
-	//var bookmarks map[string]string
 	bookmarks := make(map[string]string)
 	fmt.Println("Hello! This is bookmarks application!")
+mainLoop:
 	for {
-		fmt.Printf("Choose option that you needed: \n1: View all bookmarks\n2: Add new bookmark\n3: Delete bookmark\n4: Exit\n")
-		var input int8
-		fmt.Scanln(&input)
+		input := menu()
 		switch input {
 		case 1:
-			{
-				viewBookmarks(bookmarks)
-			}
+			viewBookmarks(bookmarks)
 		case 2:
-			{
-				addNewBookmark(bookmarks)
-			}
+			addNewBookmark(bookmarks)
 		case 3:
-			{
-				deleteBookmark(bookmarks)
-			}
+			deleteBookmark(bookmarks)
 		case 4:
-			{
-				exit()
-			}
+			exit()
+			break mainLoop
 		default:
-			{
-				fmt.Println("Invalid option or input. Please enter number from 1 to 4.")
-			}
+			fmt.Println("Invalid option or input. Please enter number from 1 to 4.")
 		}
 	}
 }
 
 func viewBookmarks(bookmarks map[string]string) {
-	fmt.Println("All bookmarks will be viewed")
+	fmt.Println("All bookmarks will be viewed:")
+	if len(bookmarks) == 0 {
+		fmt.Println("No bookmarks found")
+		return
+	}
 	for key, value := range bookmarks {
 		fmt.Printf("%s: %s\n", key, value)
 	}
+
 }
 
 func addNewBookmark(bookmarks map[string]string) {
@@ -61,4 +55,11 @@ func deleteBookmark(bookmarks map[string]string) {
 
 func exit() {
 	fmt.Println("Exiting...")
+}
+
+func menu() int8 {
+	fmt.Printf("Choose option that you needed: \n1: View all bookmarks\n2: Add new bookmark\n3: Delete bookmark\n4: Exit\n")
+	var input int8
+	fmt.Scanln(&input)
+	return input
 }
