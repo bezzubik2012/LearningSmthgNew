@@ -2,8 +2,10 @@ package main
 
 import "fmt"
 
+type stringMap map[string]string
+
 func main() {
-	bookmarks := make(map[string]string)
+	bookmarks := make(stringMap)
 	fmt.Println("Hello! This is bookmarks application!")
 mainLoop:
 	for {
@@ -24,7 +26,7 @@ mainLoop:
 	}
 }
 
-func viewBookmarks(bookmarks map[string]string) {
+func viewBookmarks(bookmarks stringMap) {
 	fmt.Println("All bookmarks will be viewed:")
 	if len(bookmarks) == 0 {
 		fmt.Println("No bookmarks found")
@@ -36,7 +38,7 @@ func viewBookmarks(bookmarks map[string]string) {
 
 }
 
-func addNewBookmark(bookmarks map[string]string) {
+func addNewBookmark(bookmarks stringMap) {
 	var key string
 	fmt.Println("Print bookmark name that would be added")
 	fmt.Scanln(&key)
@@ -46,7 +48,7 @@ func addNewBookmark(bookmarks map[string]string) {
 	bookmarks[key] = value
 }
 
-func deleteBookmark(bookmarks map[string]string) {
+func deleteBookmark(bookmarks stringMap) {
 	fmt.Println("Print bookmark name that would be deleted")
 	var key string
 	fmt.Scanln(&key)
