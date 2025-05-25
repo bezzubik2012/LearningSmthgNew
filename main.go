@@ -11,19 +11,19 @@ func main() {
 	fmt.Println("Hello, lets calculate your transactions!\nType positive or negative value of transaction, with point if its needed:\nAfter last input enter empty string")
 	for {
 		inputTransaction()
-		fmt.Println("Do you want to repeat calculations?")
+		fmt.Println("Do you want to continue input? Y/N")
 		if repeatInput() == true {
 			continue
 		}
 		break
 	}
-	fmt.Println(transactions)
-
+	fmt.Println("Your balance:")
+	fmt.Printf("%.2f\n", sumCalculation(transactions))
 }
 
 func inputTransaction() {
-	var transaction string
 	for {
+		transaction := ""
 		fmt.Println("Enter your transaction (n for exit): ")
 		fmt.Scanln(&transaction)
 		if transaction == "n" || transaction == "N" {
@@ -46,4 +46,12 @@ func repeatInput() bool {
 	} else {
 		return false
 	}
+}
+
+func sumCalculation(trSlice []float64) float64 {
+	var sum float64
+	for _, value := range trSlice {
+		sum += value
+	}
+	return sum
 }
