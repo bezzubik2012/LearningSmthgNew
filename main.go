@@ -2,6 +2,7 @@ package main
 
 import (
 	"LearningSmthgNew/account"
+	"LearningSmthgNew/files"
 	"fmt"
 )
 
@@ -15,7 +16,7 @@ func main() {
 		println("Invalid parameters")
 		return
 	}
-	
+	files.WriteFile()
 	user1.ViewAccData()
 }
 
